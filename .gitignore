@@ -1,0 +1,5 @@
+/vendor/
+/includes/smtp.local.php
+/.idea/
+/node_modules/
+composer.phar
