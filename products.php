@@ -6,6 +6,7 @@ require_once 'includes/header.php';
 // Lấy tham số từ URL
 $search = trim($_GET['q'] ?? '');
 $category_id = isset($_GET['category']) ? (int)$_GET['category'] : 0;
+$brand_id = isset($_GET['brand']) ? (int)$_GET['brand'] : 0;
 
 // Xây dựng query
 $sql = "SELECT p.*, c.name AS category_name, b.name AS brand_name 
@@ -25,6 +26,11 @@ if ($category_id > 0) {
     $params[] = $category_id;
 }
 
+if ($brand_id > 0) {
+    $sql .= " AND p.brand_id = ?";
+    $params[] = $brand_id;
+}
+
 $sql .= " ORDER BY p.id DESC";
 
 $stmt = $pdo->prepare($sql);
@@ -34,6 +40,10 @@ $products = $stmt->fetchAll();
 // Lấy danh mục để lọc
 $cat_stmt = $pdo->query("SELECT * FROM categories ORDER BY name");
 $categories = $cat_stmt->fetchAll();
+
+// Lấy thương hiệu để lọc
+$brand_stmt = $pdo->query("SELECT * FROM brands ORDER BY name");
+$brands = $brand_stmt->fetchAll();
 ?>
 
 <h1 class="mb-4">Danh sách sản phẩm</h1>
@@ -48,15 +58,26 @@ $categories = $cat_stmt->fetchAll();
     </div>
     
     <div class="col-md-8">
-        <div class="d-flex flex-wrap gap-2 justify-content-end">
-            <a href="products.php" class="btn btn-outline-secondary <?= $category_id == 0 ? 'active' : '' ?>">Tất cả</a>
+        <div class="d-flex flex-wrap gap-2 justify-content-end mb-2">
+            <a href="products.php" class="btn btn-outline-secondary <?= $category_id == 0 ? 'active' : '' ?>">Tất cả danh mục</a>
             <?php foreach ($categories as $cat): ?>
-                <a href="products.php?category=<?= $cat['id'] ?>" 
+                <a href="products.php?category=<?= $cat['id'] ?><?= $brand_id > 0 ? '&brand=' . $brand_id : '' ?>" 
                    class="btn btn-outline-secondary <?= $category_id == $cat['id'] ? 'active' : '' ?>">
                     <?= htmlspecialchars($cat['name']) ?>
                 </a>
             <?php endforeach; ?>
         </div>
+        <?php if (!empty($brands)): ?>
+        <div class="d-flex flex-wrap gap-2 justify-content-end">
+            <a href="products.php<?= $category_id > 0 ? '?category=' . $category_id : '' ?>" class="btn btn-sm btn-outline-secondary <?= $brand_id == 0 ? 'active' : '' ?>">Tất cả thương hiệu</a>
+            <?php foreach ($brands as $br): ?>
+                <a href="products.php?brand=<?= $br['id'] ?><?= $category_id > 0 ? '&category=' . $category_id : '' ?>" 
+                   class="btn btn-sm btn-outline-secondary <?= $brand_id == $br['id'] ? 'active' : '' ?>">
+                    <?= htmlspecialchars($br['name']) ?>
+                </a>
+            <?php endforeach; ?>
+        </div>
+        <?php endif; ?>
     </div>
 </div>
 
@@ -89,6 +110,7 @@ $categories = $cat_stmt->fetchAll();
                         <p class="small text-muted flex-grow-1"><?= htmlspecialchars(substr($p['description'] ?? '', 0, 60)) ?>...</p>
                         
                         <form method="post" action="cart.php">
+                            <?= csrf_field() ?>
                             <input type="hidden" name="product_id" value="<?= $p['id'] ?>">
                             <button type="submit" name="add_to_cart" class="btn btn-primary btn-sm w-100">
                                 <i class="fas fa-cart-plus me-2"></i> Thêm vào giỏ

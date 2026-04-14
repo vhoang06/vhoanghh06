@@ -22,6 +22,7 @@ try {
 $hasAdmin = $adminCount > 0;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    csrf_validate();
     $action = $_POST['action'] ?? 'login';
 
     if ($action === 'register') {
@@ -267,6 +268,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
 
                 <form method="post" novalidate>
+                    <?= csrf_field() ?>
                     <div class="mb-3">
                         <label class="form-label" for="username">
                             <i class="fas fa-user me-2"></i>Tên đăng nhập hoặc Email
@@ -300,6 +302,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
                 <div class="register-form" id="registerForm">
                     <form method="post" novalidate>
+                        <?= csrf_field() ?>
                         <div class="mb-3">
                             <label class="form-label" for="reg_username">
                                 <i class="fas fa-user-plus me-2"></i>Tên đăng nhập

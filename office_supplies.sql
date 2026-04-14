@@ -184,6 +184,12 @@ CREATE TABLE `users` (
   `email` varchar(100) NOT NULL,
   `password` varchar(255) NOT NULL,
   `role` enum('user','admin') DEFAULT 'user',
+  `email_verified` tinyint(1) DEFAULT 0,
+  `verify_token` varchar(64) DEFAULT NULL,
+  `verify_expires` datetime DEFAULT NULL,
+  `reset_token` varchar(64) DEFAULT NULL,
+  `reset_expires` datetime DEFAULT NULL,
+  `last_login` datetime DEFAULT NULL,
   `created_at` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -191,11 +197,11 @@ CREATE TABLE `users` (
 -- Đang đổ dữ liệu cho bảng `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `email`, `password`, `role`, `created_at`) VALUES
-(3, 'dvh06', 'dvhhh@gmail.com', '$2y$10$qq5DcOELhEbsCY2.x07YDOSWlCAGwyiRPuPS6c8CPyQ0VxbTg39Pi', 'user', '2026-04-11 08:39:19'),
-(4, 'dvhdvh', 'dvhdvh@gmail.com', '$2y$10$kJi6jUFbi4eTSPfgYQjKLOkVkIIhtYl4UeZR4hRit8z6ZdmuoNJQ6', 'user', '2026-04-11 08:43:13'),
-(5, 'vh06', 'vh@gmail.com', '$2y$10$MaMydZahHR0TEP5cch/TAucC50RVw5WLh2Wk868nUT5wBNUwBRofi', 'admin', '2026-04-11 09:04:12'),
-(6, '06vh', '06vh@gmail.com', '$2y$10$cAHu7bAZYB8P3MBlkSXXyOZh5Ml2CVvBF9ud.PY1i2J.avvZTGWBy', 'user', '2026-04-11 09:42:42');
+INSERT INTO `users` (`id`, `username`, `email`, `password`, `role`, `email_verified`, `created_at`) VALUES
+(3, 'dvh06', 'dvhhh@gmail.com', '$2y$10$qq5DcOELhEbsCY2.x07YDOSWlCAGwyiRPuPS6c8CPyQ0VxbTg39Pi', 'user', 1, '2026-04-11 08:39:19'),
+(4, 'dvhdvh', 'dvhdvh@gmail.com', '$2y$10$kJi6jUFbi4eTSPfgYQjKLOkVkIIhtYl4UeZR4hRit8z6ZdmuoNJQ6', 'user', 1, '2026-04-11 08:43:13'),
+(5, 'vh06', 'vh@gmail.com', '$2y$10$MaMydZahHR0TEP5cch/TAucC50RVw5WLh2Wk868nUT5wBNUwBRofi', 'admin', 1, '2026-04-11 09:04:12'),
+(6, '06vh', '06vh@gmail.com', '$2y$10$cAHu7bAZYB8P3MBlkSXXyOZh5Ml2CVvBF9ud.PY1i2J.avvZTGWBy', 'user', 1, '2026-04-11 09:42:42');
 
 --
 -- Chỉ mục cho các bảng đã đổ

@@ -57,6 +57,7 @@ $categories = $stmt->fetchAll();
                             <?= number_format($p['price'], 0, ',', '.') ?> ₫
                         </div>
                         <form method="post" action="cart.php">
+                            <?= csrf_field() ?>
                             <input type="hidden" name="product_id" value="<?= $p['id'] ?>">
                             <button type="submit" name="add_to_cart" class="btn btn-primary btn-sm w-100">
                                 <i class="fas fa-cart-plus me-2"></i> Thêm vào giỏ

@@ -28,6 +28,7 @@ $success = false;
 $order_id = null;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['shipping_name'])) {
+    csrf_validate();
     $shipping_name    = trim($_POST['shipping_name'] ?? '');
     $shipping_phone   = trim($_POST['shipping_phone'] ?? '');
     $shipping_address = trim($_POST['shipping_address'] ?? '');
@@ -140,6 +141,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['shipping_name'])) {
                         <?php endif; ?>
 
                         <form method="post">
+                            <?= csrf_field() ?>
                             <div class="mb-3">
                                 <label class="form-label">Họ và tên người nhận <span class="text-danger">*</span></label>
                                 <input type="text" name="shipping_name" class="form-control" required 

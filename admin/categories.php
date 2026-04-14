@@ -25,6 +25,7 @@ if ($edit_id > 0) {
 
 $errors = [];
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_category'])) {
+    csrf_validate();
     $name = trim($_POST['name'] ?? '');
 
     if (empty($name)) {
@@ -47,6 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_category'])) {
 
 // Xử lý xóa danh mục (AJAX)
 if (isset($_POST['action']) && $_POST['action'] === 'delete_category') {
+    csrf_validate();
     $id = (int)$_POST['id'];
 
     // Kiểm tra có sản phẩm liên kết không
@@ -148,6 +150,7 @@ $categories = $pdo->query("SELECT * FROM categories ORDER BY name")->fetchAll();
                 <?php endif; ?>
 
                 <form method="post" class="row g-3">
+                    <?= csrf_field() ?>
                     <input type="hidden" name="save_category" value="1">
                     <div class="col-md-8">
                         <label class="form-label">Tên danh mục <span class="text-danger">*</span></label>

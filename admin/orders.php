@@ -22,6 +22,7 @@ $statusLabels = [
 
 // Xử lý cập nhật trạng thái (POST)
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_status'])) {
+    csrf_validate();
     $order_id = (int)($_POST['order_id'] ?? 0);
     $status = $_POST['status'] ?? '';
     $allowed = ['completed','cancelled'];
@@ -102,6 +103,7 @@ $orders = $pdo->query("SELECT o.*, u.username FROM orders o LEFT JOIN users u ON
                     </div>
                     <div>
                         <form method="post" class="d-inline-flex align-items-center">
+                            <?= csrf_field() ?>
                             <input type="hidden" name="order_id" value="<?= $order['id'] ?>">
                             <select name="status" class="form-select form-select-sm me-2">
                                 <?php foreach (['pending','completed','cancelled'] as $s): ?>

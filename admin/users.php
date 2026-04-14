@@ -14,6 +14,7 @@ $page_title = "Quản lý người dùng";
 
 // Xử lý xóa người dùng (AJAX)
 if (isset($_POST['action']) && $_POST['action'] === 'delete_user') {
+    csrf_validate();
     $id = (int)$_POST['id'];
     
     // Không cho xóa chính mình

@@ -5,6 +5,7 @@ require_once 'includes/header.php';
 
 // Xử lý thêm sản phẩm vào giỏ (từ trang sản phẩm hoặc trang chủ)
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
+    csrf_validate();
     $product_id = (int)$_POST['product_id'];
     
     $stmt = $pdo->prepare("SELECT id, name, price, image FROM products WHERE id = ?");
@@ -95,6 +96,7 @@ if (!empty($_SESSION['cart'])) {
         </div>
     <?php else: ?>
         <form method="post" id="cart-form">
+        <?= csrf_field() ?>
         <div class="table-responsive">
             <table class="table table-hover table-striped align-middle">
                 <thead class="table-dark">

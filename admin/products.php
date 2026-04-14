@@ -30,6 +30,7 @@ function uploadImage($file) {
 
 // Xử lý xóa sản phẩm (AJAX)
 if (isset($_POST['action']) && $_POST['action'] === 'delete') {
+    csrf_validate();
     $id = (int)$_POST['id'];
     $stmt = $pdo->prepare("SELECT image FROM products WHERE id = ?");
     $stmt->execute([$id]);
@@ -54,6 +55,7 @@ if (isset($_POST['action']) && $_POST['action'] === 'delete') {
 
 // Xử lý cập nhật tồn kho nhanh (AJAX)
 if (isset($_POST['action']) && $_POST['action'] === 'update_stock') {
+    csrf_validate();
     $id = (int)$_POST['id'];
     $stock = (int)$_POST['stock'];
     $pdo->prepare("UPDATE products SET stock = ? WHERE id = ?")->execute([$stock, $id]);
@@ -72,6 +74,7 @@ if ($edit_id > 0) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_product'])) {
+    csrf_validate();
     $name = trim($_POST['name'] ?? '');
     $category_id = (int)($_POST['category_id'] ?? 0);
     $brand_id = (int)($_POST['brand_id'] ?? 0);
@@ -107,7 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_product'])) {
         header("Location: products.php?reset=" . time());
         exit;
     } else {
-        $_SESSION['toast'] = ['type'=>'danger', 'message'=>implode('<br>', $errors)];
+        $_SESSION['toast'] = ['type'=>'danger', 'message'=>implode('<br>', array_map('htmlspecialchars', $errors))];
     }
 }
 
@@ -219,6 +222,7 @@ $brands = $pdo->query("SELECT * FROM brands ORDER BY name")->fetchAll();
             </div>
             <div class="card-body">
                 <form method="post" enctype="multipart/form-data" class="row g-3">
+                    <?= csrf_field() ?>
                     <input type="hidden" name="save_product" value="1">
                     <div class="col-md-6">
                         <label class="form-label">Tên sản phẩm <span class="text-danger">*</span></label>

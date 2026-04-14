@@ -1,5 +1,6 @@
 /vendor/
 /includes/smtp.local.php
+/.env
 /.idea/
 /node_modules/
 composer.phar

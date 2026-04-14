@@ -21,6 +21,7 @@ if ($edit_id > 0) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_brand'])) {
+    csrf_validate();
     $name = trim($_POST['name'] ?? '');
 
     if (empty($name)) {
@@ -41,6 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_brand'])) {
     }
 }
 if (isset($_POST['action']) && $_POST['action'] === 'delete_brand') {
+    csrf_validate();
     $id = (int)$_POST['id'];
     $check = $pdo->prepare("SELECT COUNT(*) FROM products WHERE brand_id = ?");
     $check->execute([$id]);
@@ -124,6 +126,7 @@ $brands = $pdo->query("SELECT * FROM brands ORDER BY name")->fetchAll();
             </div>
             <div class="card-body">
                 <form method="post" class="row g-3">
+                    <?= csrf_field() ?>
                     <input type="hidden" name="save_brand" value="1">
                     <div class="col-md-8">
                         <label class="form-label">Tên thương hiệu <span class="text-danger">*</span></label>

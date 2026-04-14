@@ -70,3 +70,18 @@ require_once __DIR__ . '/config.php';
 </nav>
 
 <main class="container my-4" style="min-height: 70vh;">
+
+<?php // Flash messages display ?>
+<?php if (!empty($_SESSION['flash'])):
+    foreach ($_SESSION['flash'] as $msg):
+        $type = htmlspecialchars($msg['type']);
+        $message = $msg['message']; // Đã được escape khi set flash
+?>
+<div class="alert alert-<?= $type ?> alert-dismissible fade show" role="alert">
+    <?= $message ?>
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+</div>
+<?php
+    endforeach;
+    unset($_SESSION['flash']);
+endif; ?>

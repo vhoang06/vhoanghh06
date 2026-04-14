@@ -7,6 +7,7 @@ $success = false;
 $errors = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    csrf_validate();
     $name    = trim($_POST['name'] ?? '');
     $email   = trim($_POST['email'] ?? '');
     $message = trim($_POST['message'] ?? '');
@@ -121,6 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php endif; ?>
 
         <form method="post">
+            <?= csrf_field() ?>
             <div class="mb-3">
                 <label class="form-label">Họ và tên</label>
                 <input type="text" name="name" class="form-control" value="<?= htmlspecialchars($name ?? '') ?>" required>
