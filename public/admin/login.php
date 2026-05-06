@@ -1,7 +1,7 @@
 <?php
 // admin/login.php
 session_start();
-require_once '../includes/config.php';
+require_once '../../config/config.php';
 
 // Nếu đã đăng nhập và là admin, chuyển qua dashboard
 if (isLoggedIn() && isAdmin()) {

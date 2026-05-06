@@ -1,12 +1,4 @@
-<?php
-// index.php
-$page_title = "Trang chủ";
-require_once 'includes/header.php';
-
-// Lấy danh sách danh mục
-$stmt = $pdo->query("SELECT * FROM categories ORDER BY name");
-$categories = $stmt->fetchAll();
-?>
+<?php require_once dirname(__DIR__, 4) . '/includes/header.php'; ?>
 
 <h1 class="mb-4 text-center">Chào mừng đến với Office Supplies</h1>
 
@@ -27,16 +19,7 @@ $categories = $stmt->fetchAll();
     
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4 mb-4">
         <?php
-        $stmt = $pdo->prepare("
-            SELECT p.*, b.name AS brand_name 
-            FROM products p 
-            LEFT JOIN brands b ON p.brand_id = b.id 
-            WHERE p.category_id = ? 
-            ORDER BY p.id DESC 
-            LIMIT 4
-        ");
-        $stmt->execute([$cat['id']]);
-        $products = $stmt->fetchAll();
+        $products = $homeModel->getLatestProductsByCategory($cat['id']);
 
         foreach ($products as $p):
         ?>
@@ -76,4 +59,4 @@ $categories = $stmt->fetchAll();
     </div>
 <?php endforeach; ?>
 
-<?php require_once 'includes/footer.php'; ?>
+<?php require_once dirname(__DIR__, 4) . '/includes/footer.php'; ?>
