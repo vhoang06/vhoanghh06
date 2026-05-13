@@ -8,10 +8,11 @@
 require_once __DIR__ . '/env.php';
 
 // DB credentials từ env hoặc fallback
-define('DB_HOST', defined('DB_HOST') ? DB_HOST : 'localhost');
-define('DB_USER', defined('DB_USER') ? DB_USER : 'root');
-define('DB_PASS', defined('DB_PASS') ? DB_PASS : '');
-define('DB_NAME', defined('DB_NAME') ? DB_NAME : 'office_supplies');
+// DB credentials từ env hoặc fallback
+if (!defined('DB_HOST')) define('DB_HOST', 'localhost');
+if (!defined('DB_USER')) define('DB_USER', 'root');
+if (!defined('DB_PASS')) define('DB_PASS', '');
+if (!defined('DB_NAME')) define('DB_NAME', 'office_supplies');
 
 // Mail defaults
 if (!defined('MAIL_USE_SMTP')) define('MAIL_USE_SMTP', false);
@@ -23,25 +24,11 @@ if (!defined('MAIL_FROM')) define('MAIL_FROM', 'no-reply@localhost');
 if (!defined('MAIL_FROM_NAME')) define('MAIL_FROM_NAME', 'Office Supplies');
 
 // App settings
-if (!defined('APP_URL')) define('APP_URL', 'http://localhost/vhoanghh06');
+if (!defined('APP_URL')) define('APP_URL', 'http://localhost/vhoang_repo');
 if (!defined('APP_NAME')) define('APP_NAME', 'Office Supplies');
 
-// Database connection
-try {
-    $pdo = new PDO(
-        "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8mb4",
-        DB_USER,
-        DB_PASS,
-        [
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-            PDO::ATTR_EMULATE_PREPARES => false,
-            PDO::ATTR_PERSISTENT => true,
-        ]
-    );
-} catch (PDOException $e) {
-    die("Kết nối database thất bại: " . $e->getMessage());
-}
+// Note: Database connection is now handled by App\Core\Database class.
+// The legacy $pdo connection here has been removed to avoid conflicts.
 
 // Session
 if (session_status() === PHP_SESSION_NONE) {
@@ -74,7 +61,7 @@ function isEmailVerified() {
 function requireLogin() {
     if (!isLoggedIn()) {
         $_SESSION['redirect_after_login'] = $_SERVER['REQUEST_URI'];
-        redirect('login.php');
+        redirect('index.php?route=login');
     }
 }
 

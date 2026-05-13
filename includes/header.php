@@ -1,15 +1,17 @@
 <?php
 // includes/header.php
-require_once __DIR__ . '/config.php';
+require_once dirname(__DIR__) . '/config/config.php';
 ?>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="<?= APP_URL ?>/">
     <title>Office Supplies<?= isset($page_title) ? ' - ' . $page_title : '' ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="icon" type="image/jpeg" href="assets/images/logo.jpg">
     <style>
         .navbar-brand { font-weight: bold; color: #0d6efd !important; display: flex; align-items: center; gap: 0.75rem; }
         .brand-logo { width: 42px; height: 42px; }
@@ -26,8 +28,8 @@ require_once __DIR__ . '/config.php';
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
     <div class="container">
-        <a class="navbar-brand" href="index.php">
-            <span class="brand-logo"><img src="assets/images/logo.svg" alt="Office Supplies"></span>
+        <a class="navbar-brand" href="home">
+            <span class="brand-logo"><img src="assets/images/logo.jpg" alt="Logo"></span>
             <span>Office Supplies</span>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -36,21 +38,27 @@ require_once __DIR__ . '/config.php';
         
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto">
-                <li class="nav-item"><a class="nav-link" href="index.php?route=home">Trang chủ</a></li>
-                <li class="nav-item"><a class="nav-link" href="index.php?route=products">Sản phẩm</a></li>
-                <li class="nav-item"><a class="nav-link" href="index.php?route=brands">Thương hiệu</a></li>
-                <li class="nav-item"><a class="nav-link" href="index.php?route=contact">Liên hệ</a></li>
+                <li class="nav-item"><a class="nav-link" href="home">Trang chủ</a></li>
+                <li class="nav-item"><a class="nav-link" href="products">Sản phẩm</a></li>
+                <li class="nav-item"><a class="nav-link" href="brands">Thương hiệu</a></li>
+                <li class="nav-item"><a class="nav-link" href="contact">Liên hệ</a></li>
             </ul>
 
             <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="cart">
+                        <i class="fas fa-shopping-cart"></i> Giỏ hàng
+                        <?php 
+                        $cart_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
+                        if ($cart_count > 0): 
+                        ?>
+                            <span class="badge bg-danger rounded-pill"><?= $cart_count ?></span>
+                        <?php endif; ?>
+                    </a>
+                </li>
                 <?php if (isLoggedIn()): ?>
                     <li class="nav-item">
-                        <a class="nav-link" href="index.php?route=cart">
-                            <i class="fas fa-shopping-cart"></i> Giỏ hàng
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.php?route=orders">
+                        <a class="nav-link" href="orders">
                             <i class="fas fa-clipboard-list"></i> Đơn hàng
                         </a>
                     </li>
@@ -58,11 +66,11 @@ require_once __DIR__ . '/config.php';
                         <span class="nav-link">Xin chào, <?= htmlspecialchars($_SESSION['username'] ?? '') ?></span>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-danger" href="index.php?route=logout">Đăng xuất</a>
+                        <a class="nav-link text-danger" href="logout">Đăng xuất</a>
                     </li>
                 <?php else: ?>
-                    <li class="nav-item"><a class="nav-link" href="index.php?route=login">Đăng nhập</a></li>
-                    <li class="nav-item"><a class="nav-link" href="index.php?route=register">Đăng ký</a></li>
+                    <li class="nav-item"><a class="nav-link" href="login">Đăng nhập</a></li>
+                    <li class="nav-item"><a class="nav-link" href="register">Đăng ký</a></li>
                 <?php endif; ?>
             </ul>
         </div>

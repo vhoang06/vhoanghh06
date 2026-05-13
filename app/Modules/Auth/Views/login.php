@@ -37,11 +37,11 @@
                 </form>
 
                 <div class="text-center mt-3">
-                    <a href="forgot_password.php">Quên mật khẩu?</a>
+                    <a href="index.php?route=forgot_password">Quên mật khẩu?</a>
                 </div>
 
                 <div class="text-center mt-4">
-                    Chưa có tài khoản? <a href="register.php">Đăng ký ngay</a>
+                    Chưa có tài khoản? <a href="index.php?route=register">Đăng ký ngay</a>
                 </div>
             </div>
         </div>

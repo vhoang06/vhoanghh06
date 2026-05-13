@@ -58,6 +58,22 @@ $router->add('remove_from_cart', 'App\Modules\Cart\CartController', 'remove');
 $router->add('orders', 'App\Modules\Order\OrderController', 'index');
 $router->add('checkout', 'App\Modules\Order\OrderController', 'checkout');
 
+// Admin
+$router->add('admin', 'App\Modules\Admin\AdminController', 'index');
+$router->add('admin/products', 'App\Modules\Admin\AdminController', 'products');
+$router->add('admin/products/add', 'App\Modules\Admin\AdminController', 'product_add');
+$router->add('admin/products/edit', 'App\Modules\Admin\AdminController', 'product_edit');
+$router->add('admin/products/delete', 'App\Modules\Admin\AdminController', 'product_delete');
+$router->add('admin/orders', 'App\Modules\Admin\AdminController', 'orders');
+$router->add('admin/orders/add', 'App\Modules\Admin\AdminController', 'order_add');
+$router->add('admin/orders/edit', 'App\Modules\Admin\AdminController', 'order_edit');
+$router->add('admin/orders/detail', 'App\Modules\Admin\AdminController', 'order_detail');
+$router->add('admin/orders/update', 'App\Modules\Admin\AdminController', 'order_update');
+
+// Contact
+$router->add('contact', 'App\Modules\Contact\ContactController', 'index');
+$router->add('contact/submit', 'App\Modules\Contact\ContactController', 'submit');
+
 // Dispatch
 $url = $_GET['route'] ?? 'home';
 $router->dispatch($url);

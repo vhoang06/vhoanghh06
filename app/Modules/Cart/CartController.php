@@ -48,7 +48,7 @@ class CartController extends Controller
                 }
             }
         }
-        $this->redirect('index.php?route=cart');
+        $this->redirect('cart');
     }
 
     public function update()
@@ -66,7 +66,7 @@ class CartController extends Controller
             }
             flash('success', 'Đã cập nhật giỏ hàng!');
         }
-        $this->redirect('index.php?route=cart');
+        $this->redirect('cart');
     }
 
     public function remove()

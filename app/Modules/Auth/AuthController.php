@@ -15,7 +15,7 @@ class AuthController extends Controller
 
     public function login()
     {
-        if (isLoggedIn()) $this->redirect('index.php?route=home');
+        if (isLoggedIn()) $this->redirect('home');
 
         $errors = [];
         $username = '';
@@ -50,10 +50,10 @@ class AuthController extends Controller
                             unset($_SESSION['rate_limit_login_' . $_SERVER['REMOTE_ADDR']]);
 
                             if ($user['role'] === 'admin') {
-                                header("Location: admin/index.php"); // Adjusting path for MVC
+                                header("Location: admin");
                                 exit;
                             } else {
-                                $redirect = $_SESSION['redirect_after_login'] ?? 'index.php?route=home';
+                                $redirect = $_SESSION['redirect_after_login'] ?? 'home';
                                 unset($_SESSION['redirect_after_login']);
                                 header("Location: " . $redirect);
                                 exit;
@@ -75,7 +75,7 @@ class AuthController extends Controller
 
     public function register()
     {
-        if (isLoggedIn()) $this->redirect('index.php?route=home');
+        if (isLoggedIn()) $this->redirect('home');
 
         $errors = [];
         $success = '';
@@ -118,7 +118,7 @@ class AuthController extends Controller
     public function logout()
     {
         session_destroy();
-        header("Location: index.php?route=home");
+        header("Location: home");
         exit;
     }
 
@@ -128,7 +128,7 @@ class AuthController extends Controller
         $token = $_GET['token'] ?? '';
 
         if (empty($email) || empty($token)) {
-            $this->redirect('index.php?route=home');
+            $this->redirect('home');
         }
 
         $user = $this->authModel->getUserByVerifyToken($email, hashToken($token));
@@ -184,7 +184,7 @@ class AuthController extends Controller
         $token = $_GET['token'] ?? '';
 
         if (empty($email) || empty($token)) {
-            $this->redirect('index.php?route=home');
+            $this->redirect('home');
         }
 
         $user = $this->authModel->getUserByResetToken($email, hashToken($token));

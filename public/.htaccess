@@ -1,10 +1,12 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    
-    # Don't rewrite files or directories
+    RewriteBase /vhoang_repo/
+
+    # Chặn truy cập vào các thư mục hệ thống
+    RewriteRule ^(app|config|database|includes|vendor) - [F,L]
+
+    # Chuyển hướng mọi yêu cầu vào index.php nếu không phải là file hoặc thư mục thực tế
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
-    
-    # Rewrite everything else to index.php?route=$1
     RewriteRule ^(.*)$ index.php?route=$1 [QSA,L]
 </IfModule>
