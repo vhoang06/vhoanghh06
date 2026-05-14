@@ -1,7 +1,9 @@
 <?php
 // admin/products.php
-session_start();
-require_once '../includes/config.php';
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+require_once __DIR__ . '/../includes/config.php';
 
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
@@ -12,43 +14,41 @@ requireAdmin();
 
 $page_title = "Quản lý sản phẩm";
 
-// Tạo thư mục lưu ảnh
-$upload_dir = '../assets/images/products/';
-if (!is_dir($upload_dir)) mkdir($upload_dir, 0755, true);
-
-// Hàm upload ảnh
-function uploadImage($file) {
-    global $upload_dir;
-    if ($file['error'] !== UPLOAD_ERR_OK || $file['size'] > 2*1024*1024) return null;
-    $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
-    if (!in_array($ext, ['jpg','jpeg','png','gif'])) return null;
-    $filename = uniqid('prod_') . '.' . $ext;
-    $target = $upload_dir . $filename;
-    if (move_uploaded_file($file['tmp_name'], $target)) return 'assets/images/products/' . $filename;
-    return null;
-}
+require_once __DIR__ . '/products_functions.php';
 
 // Xử lý xóa sản phẩm (AJAX)
 if (isset($_POST['action']) && $_POST['action'] === 'delete') {
     $id = (int)$_POST['id'];
-    $stmt = $pdo->prepare("SELECT image FROM products WHERE id = ?");
-    $stmt->execute([$id]);
-    $old_image = $stmt->fetchColumn();
-    $pdo->prepare("DELETE FROM products WHERE id = ?")->execute([$id]);
-    if ($old_image && file_exists('../' . $old_image)) unlink('../' . $old_image);
 
-    // Nếu bảng rỗng sau khi xóa thì reset AUTO_INCREMENT về 1
-    $cnt = (int)$pdo->query("SELECT COUNT(*) FROM products")->fetchColumn();
-    if ($cnt === 0) {
-        try {
-            $pdo->exec("ALTER TABLE products AUTO_INCREMENT = 1");
-        } catch (Exception $e) {
-            // Nếu không có quyền ALTER TABLE thì bỏ qua
-        }
+    $check = $pdo->prepare("SELECT COUNT(*) FROM order_items WHERE product_id = ?");
+    $check->execute([$id]);
+    if ((int)$check->fetchColumn() > 0) {
+        echo json_encode(['success' => false, 'message' => 'Sản phẩm đang có đơn hàng, không thể xóa!']);
+        exit;
     }
 
-    $_SESSION['toast'] = ['type' => 'success', 'message' => 'Xóa sản phẩm thành công!'];
-    echo json_encode(['success' => true]);
+    try {
+        $stmt = $pdo->prepare("SELECT image FROM products WHERE id = ?");
+        $stmt->execute([$id]);
+        $old_image = $stmt->fetchColumn();
+        $pdo->prepare("DELETE FROM products WHERE id = ?")->execute([$id]);
+        if ($old_image && file_exists('../' . $old_image)) unlink('../' . $old_image);
+
+        // Nếu bảng rỗng sau khi xóa thì reset AUTO_INCREMENT về 1
+        $cnt = (int)$pdo->query("SELECT COUNT(*) FROM products")->fetchColumn();
+        if ($cnt === 0) {
+            try {
+                $pdo->exec("ALTER TABLE products AUTO_INCREMENT = 1");
+            } catch (Exception $e) {
+                // Nếu không có quyền ALTER TABLE thì bỏ qua
+            }
+        }
+
+        $_SESSION['toast'] = ['type' => 'success', 'message' => 'Xóa sản phẩm thành công!'];
+        echo json_encode(['success' => true]);
+    } catch (PDOException $e) {
+        echo json_encode(['success' => false, 'message' => 'Không thể xóa sản phẩm do ràng buộc dữ liệu.']);
+    }
     exit;
 }
 
@@ -175,7 +175,7 @@ $brands = $pdo->query("SELECT * FROM brands ORDER BY name")->fetchAll();
             <li class="nav-item"><a class="nav-link" href="brands.php"><i class="fas fa-copyright me-2"></i> Thương hiệu</a></li>
             <li class="nav-item"><a class="nav-link" href="orders.php"><i class="fas fa-receipt me-2"></i> Đơn hàng</a></li>
             <li class="nav-item"><a class="nav-link" href="users.php"><i class="fas fa-users me-2"></i> Người dùng</a></li>
-            <li class="nav-item"><a class="nav-link text-danger" href="../logout.php"><i class="fas fa-sign-out-alt me-2"></i> Đăng xuất</a></li>
+            <li class="nav-item"><a class="nav-link text-danger" href="../user/logout.php"><i class="fas fa-sign-out-alt me-2"></i> Đăng xuất</a></li>
         </ul>
     </div>
 
@@ -311,7 +311,7 @@ $brands = $pdo->query("SELECT * FROM brands ORDER BY name")->fetchAll();
                                         </td>
                                         <td>
                                             <a href="?edit=<?= $p['id'] ?>" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></a>
-                                            <button class="btn btn-sm btn-danger delete-btn" data-id="<?= $p['id'] ?>" data-name="<?= htmlspecialchars($p['name']) ?>">
+                                            <button type="button" class="btn btn-sm btn-danger delete-btn" data-id="<?= $p['id'] ?>" data-name="<?= htmlspecialchars($p['name']) ?>">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </td>
@@ -426,20 +426,39 @@ document.querySelectorAll('.delete-btn').forEach(btn => {
     });
 });
 
-document.getElementById('confirmDelete')?.addEventListener('click', () => {
+document.getElementById('confirmDelete')?.addEventListener('click', (event) => {
+    event.preventDefault();
     if (!deleteId) return;
-    fetch('', {
+    fetch(window.location.pathname, {
         method: 'POST',
-        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-        body: `action=delete&id=${deleteId}`
+        credentials: 'same-origin',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Accept': 'application/json'
+        },
+        body: new URLSearchParams({ action: 'delete', id: deleteId })
     })
-    .then(r => r.json())
+    .then(async r => {
+        const text = await r.text();
+        if (!r.ok) {
+            throw new Error(`HTTP ${r.status}: ${text}`);
+        }
+        try {
+            return JSON.parse(text);
+        } catch (err) {
+            throw new Error(`Invalid JSON response: ${text}`);
+        }
+    })
     .then(data => {
         if (data.success) {
             deleteModal.hide();
-            // Reload trang sau khi xóa để cập nhật số lượng và hiển thị toast
             location.reload();
+        } else {
+            alert(data.message || `Không thể xóa! Response: ${JSON.stringify(data)}`);
         }
+    })
+    .catch(err => {
+        alert(`Không thể xóa! ${err.message}`);
     });
 });
 </script>

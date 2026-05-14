@@ -71,7 +71,7 @@ $users = $pdo->query("SELECT id, username, email, created_at FROM users ORDER BY
             <li class="nav-item"><a class="nav-link" href="brands.php"><i class="fas fa-copyright me-2"></i> Thương hiệu</a></li>
             <li class="nav-item"><a class="nav-link" href="orders.php"><i class="fas fa-receipt me-2"></i> Đơn hàng</a></li>
             <li class="nav-item"><a class="nav-link active" href="users.php"><i class="fas fa-users me-2"></i> Người dùng</a></li>
-            <li class="nav-item"><a class="nav-link text-danger" href="../logout.php"><i class="fas fa-sign-out-alt me-2"></i> Đăng xuất</a></li>
+            <li class="nav-item"><a class="nav-link text-danger" href="../user/logout.php"><i class="fas fa-sign-out-alt me-2"></i> Đăng xuất</a></li>
         </ul>
     </div>
 

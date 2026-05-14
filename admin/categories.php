@@ -106,7 +106,7 @@ $categories = $pdo->query("SELECT * FROM categories ORDER BY name")->fetchAll();
             <li class="nav-item"><a class="nav-link" href="brands.php"><i class="fas fa-copyright me-2"></i> Thương hiệu</a></li>
             <li class="nav-item"><a class="nav-link" href="orders.php"><i class="fas fa-receipt me-2"></i> Đơn hàng</a></li>
             <li class="nav-item"><a class="nav-link" href="users.php"><i class="fas fa-users me-2"></i> Người dùng</a></li>
-            <li class="nav-item"><a class="nav-link text-danger" href="../logout.php"><i class="fas fa-sign-out-alt me-2"></i> Đăng xuất</a></li>
+            <li class="nav-item"><a class="nav-link text-danger" href="../user/logout.php"><i class="fas fa-sign-out-alt me-2"></i> Đăng xuất</a></li>
         </ul>
     </div>
 
@@ -185,7 +185,7 @@ $categories = $pdo->query("SELECT * FROM categories ORDER BY name")->fetchAll();
                                         <td><?= htmlspecialchars($cat['name']) ?></td>
                                         <td>
                                             <a href="?edit=<?= $cat['id'] ?>" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i> Sửa</a>
-                                            <button class="btn btn-sm btn-danger delete-btn" 
+                                            <button type="button" class="btn btn-sm btn-danger delete-btn" 
                                                     data-id="<?= $cat['id'] ?>" 
                                                     data-name="<?= htmlspecialchars($cat['name']) ?>">
                                                 <i class="fas fa-trash"></i> Xóa
@@ -241,23 +241,40 @@ document.querySelectorAll('.delete-btn').forEach(btn => {
     });
 });
 
-document.getElementById('confirmDelete')?.addEventListener('click', () => {
+document.getElementById('confirmDelete')?.addEventListener('click', (event) => {
+    event.preventDefault();
     if (!deleteId) return;
 
-    fetch('', {
+    fetch(window.location.pathname, {
         method: 'POST',
-        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-        body: `action=delete_category&id=${deleteId}`
+        credentials: 'same-origin',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Accept': 'application/json'
+        },
+        body: new URLSearchParams({ action: 'delete_category', id: deleteId })
     })
-    .then(r => r.json())
+    .then(async r => {
+        const text = await r.text();
+        if (!r.ok) {
+            throw new Error(`HTTP ${r.status}: ${text}`);
+        }
+        try {
+            return JSON.parse(text);
+        } catch (err) {
+            throw new Error(`Invalid JSON response: ${text}`);
+        }
+    })
     .then(data => {
         if (data.success) {
             deleteModal.hide();
-            // Reload trang sau khi xóa để cập nhật số lượng và hiển thị toast
             location.reload();
         } else {
-            alert(data.message || 'Không thể xóa!');
+            alert(data.message || `Không thể xóa! Response: ${JSON.stringify(data)}`);
         }
+    })
+    .catch(err => {
+        alert(`Không thể xóa! ${err.message}`);
     });
     deleteId = null;
 });

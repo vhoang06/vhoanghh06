@@ -7,7 +7,7 @@
             <div class="col-md-4">
                 <h5 class="text-white mb-3">Office Supplies</h5>
                 <div class="d-flex align-items-center mb-3">
-                    <img src="assets/images/logo.svg" alt="Office Supplies" style="width:40px; height:40px; object-fit:contain; margin-right:0.75rem;">
+                    <img src="../assets/images/logo.svg" alt="Office Supplies" style="width:40px; height:40px; object-fit:contain; margin-right:0.75rem;">
                     <span class="small text-muted">Chuyên cung cấp văn phòng phẩm, bàn ghế, thiết bị và phụ kiện văn phòng.</span>
                 </div>
                 <p class="small mb-0"><i class="fas fa-map-marker-alt me-2"></i>741 Giải Phóng, Hoàng Mai, Hà Nội</p>
@@ -16,7 +16,7 @@
                 <p class="small mb-0 mt-2"><strong>Kết nối với chúng tôi:</strong></p>
                 <p class="mb-0">
                     <a href="https://facebook.com/" target="_blank" class="d-inline-flex align-items-center text-white text-decoration-none">
-                        <img src="assets/images/facebook.svg" alt="Facebook" style="width:28px; height:28px; margin-right:0.5rem;">
+                        <img src="../assets/images/facebook.svg" alt="Facebook" style="width:28px; height:28px; margin-right:0.5rem;">
                         <span>Facebook</span>
                     </a>
                 </p>

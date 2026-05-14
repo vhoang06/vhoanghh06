@@ -339,7 +339,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
 
                 <div class="back-link">
-                    <a href="../login.php">
+                    <a href="../user/login.php">
                         <i class="fas fa-arrow-left me-2"></i>Quay lại trang đăng nhập chung
                     </a>
                 </div>

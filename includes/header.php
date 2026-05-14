@@ -27,7 +27,7 @@ require_once __DIR__ . '/config.php';
 <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
     <div class="container">
         <a class="navbar-brand" href="index.php">
-            <span class="brand-logo"><img src="assets/images/logo.svg" alt="Office Supplies"></span>
+            <span class="brand-logo"><img src="../assets/images/logo.svg" alt="Office Supplies"></span>
             <span>Office Supplies</span>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
