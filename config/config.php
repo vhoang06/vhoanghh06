@@ -4,6 +4,21 @@
  * Được include bởi header.php và các admin pages
  */
 
+// Dynamic App URL detection
+if (!defined('APP_URL')) {
+    if (isset($_SERVER['HTTP_HOST'])) {
+        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || ($_SERVER['SERVER_PORT'] ?? 80) == 443) ? "https://" : "http://";
+        $host = $_SERVER['HTTP_HOST'];
+        $scriptName = $_SERVER['SCRIPT_NAME'] ?? '';
+        $dir = str_replace('\\', '/', dirname($scriptName));
+        $dir = rtrim($dir, '/');
+        define('APP_URL', $protocol . $host . $dir);
+    } else {
+        // Fallback for CLI/cron
+        define('APP_URL', 'http://localhost/Hoang');
+    }
+}
+
 // Load environment variables
 require_once __DIR__ . '/env.php';
 
@@ -24,7 +39,7 @@ if (!defined('MAIL_FROM')) define('MAIL_FROM', 'no-reply@localhost');
 if (!defined('MAIL_FROM_NAME')) define('MAIL_FROM_NAME', 'Office Supplies');
 
 // App settings
-if (!defined('APP_URL')) define('APP_URL', 'http://localhost/vhoang_repo');
+if (!defined('APP_URL')) define('APP_URL', 'http://localhost/Hoang');
 if (!defined('APP_NAME')) define('APP_NAME', 'Office Supplies');
 
 // Note: Database connection is now handled by App\Core\Database class.

@@ -2,7 +2,7 @@
 
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb mb-4">
-    <li class="breadcrumb-item"><a href="index.php">Trang chủ</a></li>
+    <li class="breadcrumb-item"><a href="index.php?route=home">Trang chủ</a></li>
     <li class="breadcrumb-item"><a href="index.php?route=products">Sản phẩm</a></li>
     <li class="breadcrumb-item"><a href="index.php?route=products&category=<?= $product['category_id'] ?>"><?= htmlspecialchars($product['category_name']) ?></a></li>
     <li class="breadcrumb-item active" aria-current="page"><?= htmlspecialchars($product['name']) ?></li>

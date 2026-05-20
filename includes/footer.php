@@ -5,11 +5,15 @@
     <div class="container">
         <div class="row gy-4">
             <div class="col-md-4">
-                <h5 class="text-white mb-3">Office Supplies</h5>
                 <div class="d-flex align-items-center mb-3">
-                    <img src="assets/images/logo.svg" alt="Office Supplies" style="width:40px; height:40px; object-fit:contain; margin-right:0.75rem;">
-                    <span class="small text-muted">Chuyên cung cấp văn phòng phẩm, bàn ghế, thiết bị và phụ kiện văn phòng.</span>
+                    <a href="index.php?route=home" class="text-white text-decoration-none d-flex align-items-center" style="font-weight: bold; font-size: 1.25rem; gap: 0.75rem;">
+                        <span class="brand-logo" style="width: 40px; height: 40px; display: inline-block; overflow: hidden; border-radius: 4px;">
+                            <img src="assets/images/logo.jpg" alt="Logo" style="width: 100%; height: 100%; object-fit: cover;">
+                        </span>
+                        <span>Office Supplies</span>
+                    </a>
                 </div>
+                <p class="small text-muted mb-3">Chuyên cung cấp văn phòng phẩm, bàn ghế, thiết bị và phụ kiện văn phòng.</p>
                 <p class="small mb-0"><i class="fas fa-map-marker-alt me-2"></i>741 Giải Phóng, Hoàng Mai, Hà Nội</p>
                 <p class="small mb-0"><i class="fas fa-phone-alt me-2"></i>036 995 1001</p>
                 <p class="small mb-0"><i class="fas fa-envelope me-2"></i>viethoangk651@gmail.com</p>
@@ -24,10 +28,10 @@
             <div class="col-md-4">
                 <h5 class="text-white mb-3">Liên kết nhanh</h5>
                 <ul class="list-unstyled small">
-                    <li><a href="index.php" class="text-white text-decoration-none">Trang chủ</a></li>
-                    <li><a href="products.php" class="text-white text-decoration-none">Sản phẩm</a></li>
-                    <li><a href="contact.php" class="text-white text-decoration-none">Liên hệ</a></li>
-                    <li><a href="orders.php" class="text-white text-decoration-none">Đơn hàng</a></li>
+                    <li><a href="index.php?route=home" class="text-white text-decoration-none">Trang chủ</a></li>
+                    <li><a href="index.php?route=products" class="text-white text-decoration-none">Sản phẩm</a></li>
+                    <li><a href="index.php?route=contact" class="text-white text-decoration-none">Liên hệ</a></li>
+                    <li><a href="index.php?route=orders" class="text-white text-decoration-none">Đơn hàng</a></li>
                 </ul>
             </div>
             <div class="col-md-4">

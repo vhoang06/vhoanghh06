@@ -93,9 +93,10 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `email`, `password`, `role`, `email_verified`, `created_at`) VALUES
-(1, 'admin', 'admin@example.com', '$2y$10$MaMydZahHR0TEP5cch/TAucC50RVw5WLh2Wk868nUT5wBNUwBRofi', 'admin', 1, NOW());
--- Password for admin is 'admin123' (if it matches the hash from existing sql, which was for 'vh06')
--- Actually let's use the hash from the existing file for user 'vh06' which is an admin.
+(1, 'admin', 'admin@example.com', '$2y$10$MaMydZahHR0TEP5cch/TAucC50RVw5WLh2Wk868nUT5wBNUwBRofi', 'admin', 1, NOW()),
+(2, 'admin123', 'admin123@example.com', '$2y$10$GQqrRmL641NhM4T5lIaDi.VXmYkPLrbVpImPlG1cc7oUdfc1Owb86', 'admin', 1, NOW());
+-- Password for admin is 'admin123'
+-- Password for admin123 is '123'
 
 -- --------------------------------------------------------
 

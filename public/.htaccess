@@ -1,6 +1,6 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteBase /vhoang_repo/
+    # RewriteBase /
 
     # Chặn truy cập vào các thư mục hệ thống
     RewriteRule ^(app|config|database|includes|vendor) - [F,L]

@@ -161,37 +161,37 @@
 
     <!-- Sidebar -->
     <div class="sidebar">
-        <a href="admin" class="sidebar-header">
+        <a href="index.php?route=admin" class="sidebar-header">
             <i class="fas fa-cube fa-lg"></i>
             <span>ADMIN PANEL</span>
         </a>
         <ul class="nav-list">
             <li class="nav-item">
-                <a href="admin" class="nav-link <?= ($active_menu == 'dashboard') ? 'active' : '' ?>">
+                <a href="index.php?route=admin" class="nav-link <?= ($active_menu == 'dashboard') ? 'active' : '' ?>">
                     <i class="fas fa-chart-line"></i>
                     <span>Dashboard</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="admin/products" class="nav-link <?= ($active_menu == 'products') ? 'active' : '' ?>">
+                <a href="index.php?route=admin/products" class="nav-link <?= ($active_menu == 'products') ? 'active' : '' ?>">
                     <i class="fas fa-boxes"></i>
                     <span>Sản phẩm</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="admin/orders" class="nav-link <?= ($active_menu == 'orders') ? 'active' : '' ?>">
+                <a href="index.php?route=admin/orders" class="nav-link <?= ($active_menu == 'orders') ? 'active' : '' ?>">
                     <i class="fas fa-shopping-bag"></i>
                     <span>Đơn hàng</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="home" class="nav-link">
+                <a href="index.php?route=home" class="nav-link">
                     <i class="fas fa-external-link-alt"></i>
                     <span>Xem Website</span>
                 </a>
             </li>
             <li class="nav-item" style="margin-top: 2rem;">
-                <a href="logout" class="nav-link text-danger">
+                <a href="index.php?route=logout" class="nav-link text-danger">
                     <i class="fas fa-sign-out-alt"></i>
                     <span>Đăng xuất</span>
                 </a>

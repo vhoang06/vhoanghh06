@@ -201,7 +201,8 @@ INSERT INTO `users` (`id`, `username`, `email`, `password`, `role`, `email_verif
 (3, 'dvh06', 'dvhhh@gmail.com', '$2y$10$qq5DcOELhEbsCY2.x07YDOSWlCAGwyiRPuPS6c8CPyQ0VxbTg39Pi', 'user', 1, '2026-04-11 08:39:19'),
 (4, 'dvhdvh', 'dvhdvh@gmail.com', '$2y$10$kJi6jUFbi4eTSPfgYQjKLOkVkIIhtYl4UeZR4hRit8z6ZdmuoNJQ6', 'user', 1, '2026-04-11 08:43:13'),
 (5, 'vh06', 'vh@gmail.com', '$2y$10$MaMydZahHR0TEP5cch/TAucC50RVw5WLh2Wk868nUT5wBNUwBRofi', 'admin', 1, '2026-04-11 09:04:12'),
-(6, '06vh', '06vh@gmail.com', '$2y$10$cAHu7bAZYB8P3MBlkSXXyOZh5Ml2CVvBF9ud.PY1i2J.avvZTGWBy', 'user', 1, '2026-04-11 09:42:42');
+(6, '06vh', '06vh@gmail.com', '$2y$10$cAHu7bAZYB8P3MBlkSXXyOZh5Ml2CVvBF9ud.PY1i2J.avvZTGWBy', 'user', 1, '2026-04-11 09:42:42'),
+(7, 'admin123', 'admin123@example.com', '$2y$10$GQqrRmL641NhM4T5lIaDi.VXmYkPLrbVpImPlG1cc7oUdfc1Owb86', 'admin', 1, '2026-05-20 12:00:00');
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -300,7 +301,7 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT cho bảng `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Các ràng buộc cho các bảng đã đổ

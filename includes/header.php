@@ -28,7 +28,7 @@ require_once dirname(__DIR__) . '/config/config.php';
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
     <div class="container">
-        <a class="navbar-brand" href="home">
+        <a class="navbar-brand" href="index.php?route=home">
             <span class="brand-logo"><img src="assets/images/logo.jpg" alt="Logo"></span>
             <span>Office Supplies</span>
         </a>
@@ -38,15 +38,15 @@ require_once dirname(__DIR__) . '/config/config.php';
         
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto">
-                <li class="nav-item"><a class="nav-link" href="home">Trang chủ</a></li>
-                <li class="nav-item"><a class="nav-link" href="products">Sản phẩm</a></li>
-                <li class="nav-item"><a class="nav-link" href="brands">Thương hiệu</a></li>
-                <li class="nav-item"><a class="nav-link" href="contact">Liên hệ</a></li>
+                <li class="nav-item"><a class="nav-link" href="index.php?route=home">Trang chủ</a></li>
+                <li class="nav-item"><a class="nav-link" href="index.php?route=products">Sản phẩm</a></li>
+                <li class="nav-item"><a class="nav-link" href="index.php?route=brands">Thương hiệu</a></li>
+                <li class="nav-item"><a class="nav-link" href="index.php?route=contact">Liên hệ</a></li>
             </ul>
 
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="cart">
+                    <a class="nav-link" href="index.php?route=cart">
                         <i class="fas fa-shopping-cart"></i> Giỏ hàng
                         <?php 
                         $cart_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
@@ -58,7 +58,7 @@ require_once dirname(__DIR__) . '/config/config.php';
                 </li>
                 <?php if (isLoggedIn()): ?>
                     <li class="nav-item">
-                        <a class="nav-link" href="orders">
+                        <a class="nav-link" href="index.php?route=orders">
                             <i class="fas fa-clipboard-list"></i> Đơn hàng
                         </a>
                     </li>
@@ -66,11 +66,11 @@ require_once dirname(__DIR__) . '/config/config.php';
                         <span class="nav-link">Xin chào, <?= htmlspecialchars($_SESSION['username'] ?? '') ?></span>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-danger" href="logout">Đăng xuất</a>
+                        <a class="nav-link text-danger" href="index.php?route=logout">Đăng xuất</a>
                     </li>
                 <?php else: ?>
-                    <li class="nav-item"><a class="nav-link" href="login">Đăng nhập</a></li>
-                    <li class="nav-item"><a class="nav-link" href="register">Đăng ký</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.php?route=login">Đăng nhập</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.php?route=register">Đăng ký</a></li>
                 <?php endif; ?>
             </ul>
         </div>
